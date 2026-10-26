@@ -24,15 +24,15 @@ def set_sampler():
 
 
 def build_nl(values, weights, capacity, max_items_allowed):
-    """Build the nonlinear model for our problem
+    """Build the nonlinear model for the problem
 
     Requirements:
         Objective:
-            - Maximize the total value of the container
+            - Maximize the total value of items in the container.
 
         Constraints:
-            - Total weight of the shipped container should not exceed the capacity weight
-            - At most max_items_allowed can be included in the container
+            - Total weight of the shipping container should not exceed the capacity weight.
+            - At most max_items_allowed can be included in the container.
 
     Args:
         values (list):
@@ -68,7 +68,7 @@ def build_nl(values, weights, capacity, max_items_allowed):
     
 
     ## TODO: Add the two constraints:
-    # Total weight of the shipped container should not exceed the capacity weight.
+    # Total weight of the shipping container should not exceed the capacity weight.
     # At most two items can be included in the container.
     
     
