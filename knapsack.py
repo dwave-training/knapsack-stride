@@ -15,79 +15,80 @@
 ## ------- import packages -------
 
 
-
 def set_sampler():
     """Return a sampler"""
-    ## TODO: Import the package and add sampler here
+    ## TODO: Instantiate the nonlinear sampler and import the required package.
     
 
     return sampler
 
+
 def build_nl(values, weights, capacity, max_items_allowed):
-    """ Build the NL model for our problem
+    """Build the nonlinear model for the problem
 
     Requirements:
-        Objective: 
-            - Maximize the total value of the container
-            
+        Objective:
+            - Maximize the total value of items in the container.
+
         Constraints:
-            - Total weight of the shipped container should not exceed the capacity weight
-            - At most max_items_allowed can be included in the container
-            
+            - Total weight of the shipping container should not exceed the capacity weight.
+            - At most max_items_allowed can be included in the container.
+
     Args:
         values (list):
             A 1 D array-like (row vector) listing the value of each item
-            
+
         weights (list):
             A 1 D array-like (row vector) listing the weight of each item
-            
+
         capacity (int):
             Maximum weight the container can hold
-               
+
         max_items_allowed (int):
             The maximum number of items that can be included in the container
-               
+
     Returns:
         A model encoding the knapsack problem
     """
-   
-    ## TODO: Import the package and construct the model
-	
 
-    # Create the binary variables 
+    ## TODO: Initialize the nonlinear model called `model`, and import the required package.
+    
+
+    # Create the binary variable
     nbr_items = len(weights)
     x = model.binary(nbr_items)
 
-    # Add constants 
+    # Add the constants to the model object
     values = model.constant(values)
     weights = model.constant(weights)
     capacity = model.constant(capacity)
     max_items_allowed = model.constant(max_items_allowed)
 
-    ## TODO: Set the objective mentioned in the README
-	
+    ## TODO: Set the objective function: Maximize the total value of the container.
+    
 
-    ## TODO: Add constraints to reflect the restrictions in the README
-	
-	
-        
+    ## TODO: Add the two constraints:
+    # Total weight of the shipping container should not exceed the capacity weight.
+    # At most two items can be included in the container.
+    
+    
+
     return model
 
+
 def solve_problem(model, sampler):
-    """Run the provided NL object on the designated sampler"""
+    """Run the provided nonlinear object on the designated sampler"""
 
-    # Initialize the NL solver
-    sampler = set_sampler()
-
-    # Solve the problem using the NL solver
-    sampleset = sampler.sample(model, label='Knapsack using NL solver')
+    # Solve the problem using the Stride hybrid solver
+    sampleset = sampler.sample(model, label="Knapsack using Stride hybrid solver")
 
     return sampleset
 
+
 ## ------- Main program -------
 if __name__ == "__main__":
-	
-    # Add constants 
+
+    # Add constants
     values = [34, 25, 78, 21, 64]
     weights = [3, 5, 9, 4, 2]
     W = 10
@@ -95,13 +96,15 @@ if __name__ == "__main__":
 
     ## Construct the model
     model = build_nl(values, weights, W, max_items_allowed)
-	
+
     ## ------- Run on the Stride hybrid solver -------
     sampler = set_sampler()
 
     sampleset = solve_problem(model, sampler)
 
-    # Obtain results 
+    # Obtain results
     with model.lock():
         current_state = 0
-        print(f"For state {current_state}, {list(sym.state(current_state) for sym in model.iter_decisions())} results in objective {model.objective.state(current_state)}")
+        print(
+            f"For state {current_state}, {list(sym.state(current_state) for sym in model.iter_decisions())} results in objective {model.objective.state(current_state)}"
+        )
